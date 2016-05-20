@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Shoppu</string>
+
+    <!-- Login-->
+    <string name="welcome">Bienvenido</string>
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="title_activity_subject">SubjectActivity</string>
+    <string name="registrate">Registrate</string>
+    <string name="already_member">Ya eres miembro? Inicia sesion</string>
+    <string name="create_account">Crear cuenta</string>
+    <string name="confirm_password">Confirmar Contraseña</string>
+    <string name="name">Nombre</string>
+    <string name="lastname">Apellido</string>
+    <string name="no_account">Aun no tiene cuenta? Crea una</string>
+    <string name="creating_account">Creando cuenta</string>
+    <string name="login_failed">Fallo el inicio de sesion</string>
+    <string name="at_leats_3_characters">Requiere almenos 3 caracteres</string>
+    <string name="valid_email">Ingresa una direccion de correo valida</string>
+    <string name="between_8_characters">Debe ser de un minimo de 8 caracteres</string>
+    <string name="password_not_match">Las contraseñas no coinciden</string>
+    <string name="authenticating">Autenticando...</string>
+</resources>
