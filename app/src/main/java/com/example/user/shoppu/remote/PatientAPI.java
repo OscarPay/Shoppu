@@ -1,6 +1,6 @@
 package com.example.user.shoppu.remote;
 
-import com.example.user.shoppu.models.Patient;
+import com.example.user.shoppu.models.User;
 import com.example.user.shoppu.models.Registration;
 
 import okhttp3.ResponseBody;
@@ -25,7 +25,7 @@ public interface PatientAPI {
     Call<ResponseBody> register(@Body Registration registration);
     @Headers("Content-Type: application/json")
     @PATCH("/api/patients/{id}")
-    Call<ResponseBody> update(@Header("Token") String token, @Path("id") int patientID, @Body Patient patient);
+    Call<ResponseBody> update(@Header("Token") String token, @Path("id") int patientID, @Body User user);
 
     class Factory {
         public static PatientAPI service;

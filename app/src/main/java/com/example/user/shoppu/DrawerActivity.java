@@ -17,7 +17,8 @@ import android.widget.TextView;
 import com.example.user.shoppu.Utils.Utils;
 import com.example.user.shoppu.fragments.DoctorsFragment;
 import com.example.user.shoppu.fragments.ProfileFragment;
-import com.example.user.shoppu.models.Patient;
+import com.example.user.shoppu.fragments.PurchaseHistoryFragment;
+import com.example.user.shoppu.models.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,7 +60,7 @@ public class DrawerActivity extends AppCompatActivity
                         "  }\n" +
                         "}");
 
-        Patient currentUser = Utils.toUserAtributtes(jsonCurrentUser);
+        User currentUser = Utils.toUserAtributtes(jsonCurrentUser);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -72,7 +73,7 @@ public class DrawerActivity extends AppCompatActivity
         //Set the mainFragment
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.user_key), jsonCurrentUser);
-        ProfileFragment fragment = new ProfileFragment();
+        PurchaseHistoryFragment fragment = new PurchaseHistoryFragment();
         fragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_drawer, fragment);
@@ -127,6 +128,10 @@ public class DrawerActivity extends AppCompatActivity
             fragment.setArguments(bundle);
             fragmentTransaction = true;
 
+        }else if(id == R.id.purchases){
+            fragment = new PurchaseHistoryFragment();
+            fragment.setArguments(bundle);
+            fragmentTransaction = true;
         }else if (id == R.id.find_by_name) {
             fragment = new DoctorsFragment();
             bundle.putString(getString(R.string.find_by_key), getString(R.string.by_name));

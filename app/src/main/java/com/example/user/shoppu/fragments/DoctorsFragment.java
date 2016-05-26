@@ -26,7 +26,7 @@ import com.example.user.shoppu.R;
 import com.example.user.shoppu.Utils.Utils;
 import com.example.user.shoppu.adapter.DoctorAdapter;
 import com.example.user.shoppu.models.Doctor;
-import com.example.user.shoppu.models.Patient;
+import com.example.user.shoppu.models.User;
 import com.example.user.shoppu.remote.DoctorAPI;
 
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class DoctorsFragment extends Fragment {
 
     private static final String TAG = DoctorsFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
-    private Patient currentUser;
+    private User currentUser;
     public List<Doctor> doctors;
     private Activity activity;
     private DoctorAdapter doctorAdapter;

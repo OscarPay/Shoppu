@@ -7,6 +7,10 @@
             android:icon="@drawable/user"
             android:title="@string/profile" />
         <item
+            android:id="@+id/purchases"
+            android:icon="@drawable/logout"
+            android:title="@string/purchases" />
+        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
             android:title="@string/logout" />
