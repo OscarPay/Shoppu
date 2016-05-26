@@ -21,4 +21,52 @@
     <string name="between_8_characters">Debe ser de un minimo de 8 caracteres</string>
     <string name="password_not_match">Las contraseñas no coinciden</string>
     <string name="authenticating">Autenticando...</string>
+    <string name="register_failed">Fallo el registro</string>
+    <string name="complete_register">Completa tus datos</string>
+    <string name="blood_type">Tipo de sangre</string>
+    <string name="birthday">Fecha de nacimiento</string>
+    <string name="height">Altura</string>
+    <string name="weight">Peso</string>
+    <string name="allergies">Alergias</string>
+    <string name="save">Guardar</string>
+    <string name="at_leats_5_characters">Requiere almenos 5 caracteres</string>
+    <string name="invalid_value">Valor invalido</string>
+    <string name="gender">Genero</string>
+    <string name="saving_profile">Guardando perfil</string>
+    <string name="genderInvalid">Genero invalido (M/H)</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="phone">Numero de telefono</string>
+
+    <string name="token">"Token token="</string>
+
+    <!-- Drawer-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="loading">Cargando...</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="logout">Cerrar Sesión</string>
+    <string name="find_product">Buscar producto</string>
+    <string name="find_by_name">Nombre</string>
+    <string name="find_by_hospital">Hospital</string>
+    <string name="find_by_specialty">Especialidad</string>
+    <string name="profile">Perfil</string>
+    <string name="calendar">Calendario</string>
+    <string name="diagnostics">Diagnosticos</string>
+
+    <!-- Constantes-->
+    <string name="name_shared_preferences">Shoppu</string>
+    <string name="is_logued_key">isLogued</string>
+    <string name="message_key">message</string>
+    <string name="current_user_key">currentUser</string>
+    <string name="user_key">user</string>
+    <string name="find_by_key">findBy</string>
+    <string name="by_name">Nombre</string>
+    <string name="by_specialty">Especialidad</string>
+    <string name="by_hospital">Hospital</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
