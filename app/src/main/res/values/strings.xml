@@ -49,11 +49,7 @@
     <string name="logout">Cerrar Sesión</string>
     <string name="find_product">Buscar producto</string>
     <string name="find_by_name">Nombre</string>
-    <string name="find_by_hospital">Hospital</string>
-    <string name="find_by_specialty">Especialidad</string>
     <string name="profile">Perfil</string>
-    <string name="calendar">Calendario</string>
-    <string name="diagnostics">Diagnosticos</string>
 
     <!-- Constantes-->
     <string name="name_shared_preferences">Shoppu</string>
@@ -66,7 +62,4 @@
     <string name="by_specialty">Especialidad</string>
     <string name="by_hospital">Hospital</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main">MainActivity</string>
 </resources>
