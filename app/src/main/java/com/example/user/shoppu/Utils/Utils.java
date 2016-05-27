@@ -17,6 +17,7 @@ public class Utils {
     private static List<Purchase> puchases = new ArrayList<>();
     private static List<Coupon> coupons = new ArrayList<>();
 
+
     public static UserAttributes toUserAtributtes(String json){
         Gson gson = new Gson();
         UserAttributes user = gson.fromJson(json, UserAttributes.class);

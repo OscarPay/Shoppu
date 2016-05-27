@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,40 +16,36 @@ import android.view.ViewGroup;
 import com.example.user.shoppu.DrawerActivity;
 import com.example.user.shoppu.R;
 import com.example.user.shoppu.Utils.Utils;
-import com.example.user.shoppu.adapter.PurchasesAdapter;
-import com.example.user.shoppu.models.Purchase;
+import com.example.user.shoppu.adapter.CouponAdapter;
+import com.example.user.shoppu.models.Coupon;
 import com.example.user.shoppu.models.UserAttributes;
 
-import java.io.IOException;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class PurchaseHistoryFragment extends Fragment {
-    private static final String TAG = PurchaseHistoryFragment.class.getSimpleName();
+public class CouponFragment extends Fragment {
+    public static final String TAG = CouponFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
-    private UserAttributes currentUser;
-    private List<Purchase> purchases;
-    private Activity activity;
-    private PurchasesAdapter purchasesAdapter;
     private ProgressDialog progressDialog;
-    private String token;
+    private Activity activity;
     private LinearLayoutManager mLayoutManager;
+    private UserAttributes currentUser;
     public DrawerActivity drawerActivity = null;
     public Toolbar toolbar = null;
     private boolean mIsLoading = false;
+    private List<Coupon> coupons;
+    private CouponAdapter couponAdapter;
 
-    @Bind(R.id.recycler_view_purchases)
+    @Bind(R.id.recycler_view_coupons)
     public RecyclerView recyclerViewDoctores;
 
-    public PurchaseHistoryFragment() {
+    public CouponFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,24 +56,21 @@ public class PurchaseHistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_purchase_history, container, false);
+        View view = inflater.inflate(R.layout.fragment_coupon, container, false);
         ButterKnife.bind(this, view);
 
         setHasOptionsMenu(true);
-
         drawerActivity = (DrawerActivity) getActivity();
-
         setToolbar(view);
-
         getUserData();
 
-        getListPurchasedObjects();
+        this.coupons = Utils.getCoupons();
 
-        purchasesAdapter = new PurchasesAdapter(activity, purchases);
+        couponAdapter = new CouponAdapter(activity, coupons);
         recyclerViewDoctores.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(activity);
         recyclerViewDoctores.setLayoutManager(mLayoutManager);
-        recyclerViewDoctores.setAdapter(purchasesAdapter);
+        recyclerViewDoctores.setAdapter(couponAdapter);
 
         return view;
     }
@@ -88,72 +79,18 @@ public class PurchaseHistoryFragment extends Fragment {
         String jsonUser = getArguments().getString(getString(R.string.user_key), "");
         currentUser = Utils.toUserAtributtes(jsonUser);
         activity = this.getActivity();
-        token = getString(R.string.token) + currentUser.getToken();
-    }
-
-    private void getListPurchasedObjects(){
-        showLoadingDialog();
-        fetchPurchases(mCallbackPurchase);
     }
 
     private void setToolbar(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar_default);
         drawerActivity.setSupportActionBar(toolbar);
-        drawerActivity.getSupportActionBar().setTitle(getString(R.string.purchases));
+        drawerActivity.getSupportActionBar().setTitle(getString(R.string.products));
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 drawerActivity, drawerActivity.drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerActivity.drawer.setDrawerListener(toggle);
         toggle.syncState();
     }
-
-    private void showLoadingDialog() {
-        progressDialog = new ProgressDialog(getActivity(),
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.loading));
-        progressDialog.show();
-        mIsLoading = true;
-    }
-
-    private void fetchPurchases(Callback<List<Purchase>> callback){
-        //InvoiceAPI.Factory.getInstance().getPurchase(currentUser.getToken(),currentUser.getId()).enqueue(callback);
-        purchases =Utils.getPuchases();
-        mIsLoading = false;
-        progressDialog.dismiss();
-    }
-
-    public Callback<List<Purchase>> mCallbackPurchase = new Callback<List<Purchase>>() {
-        @Override
-        public void onResponse(Call<List<Purchase>> call, Response<List<Purchase>> response) {
-            int code = response.code();
-            mIsLoading = false;
-
-            switch (code){
-                case 200:
-                    Log.d(TAG, String.valueOf(code));
-                    purchases = response.body();
-                    purchasesAdapter.swap(purchases);
-
-                    break;
-                default:
-                    Log.e(TAG, String.valueOf(code));
-                    try {
-                        Snackbar.make(getActivity().getCurrentFocus(), "Error del Servidor" + response.errorBody().string(), Snackbar.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-            }
-
-            progressDialog.dismiss();
-        }
-
-        @Override
-        public void onFailure(Call<List<Purchase>> call, Throwable t) {
-            progressDialog.dismiss();
-            Snackbar.make(getActivity().getCurrentFocus(), t.getMessage(), Snackbar.LENGTH_SHORT).show();
-        }
-    };
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

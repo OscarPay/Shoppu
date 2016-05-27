@@ -40,6 +40,7 @@
     <string name="token">"Token token="</string>
     <string name="purchases">Compras realizadas</string>
     <string name="products">Productos</string>
+    <string name="coupons">Cupones</string>
 
     <!-- Drawer-->
     <string name="navigation_drawer_open">Open navigation drawer</string>

@@ -139,6 +139,7 @@ public class BuyerFragment extends Fragment {
                     Purchase purchase = response.body();
 
                     Utils.addPurchase(purchase);
+                    Utils.addCoupon(purchase.getCoupon());
 
                     Bundle bundle = new Bundle();
                     bundle.putString(getString(R.string.user_key), new Gson().toJson(currentUser));

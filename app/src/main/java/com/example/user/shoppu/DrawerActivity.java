@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.user.shoppu.Utils.Utils;
+import com.example.user.shoppu.fragments.CouponFragment;
 import com.example.user.shoppu.fragments.ProductFragment;
 import com.example.user.shoppu.fragments.ProfileFragment;
 import com.example.user.shoppu.fragments.PurchaseHistoryFragment;
@@ -142,7 +143,12 @@ public class DrawerActivity extends AppCompatActivity
             fragment.setArguments(bundle);
             fragmentTransaction = true;
 
-        } else if (id == R.id.nav_logout){
+        } else if(id == R.id.coupons){
+            fragment = new CouponFragment();
+            fragment.setArguments(bundle);
+            fragmentTransaction = true;
+
+        }else if (id == R.id.nav_logout){
             SharedPreferences.Editor edit = getSharedPreferences(getString(R.string.name_shared_preferences), Context.MODE_APPEND).edit();
             edit.clear();
             edit.apply();
