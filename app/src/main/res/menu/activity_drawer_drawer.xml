@@ -16,12 +16,12 @@
             android:title="@string/logout" />
     </group>
 
-    <item android:title="@string/find_product">
+    <item android:title="@string/shop">
         <menu>
             <item
-                android:id="@+id/find_by_name"
+                android:id="@+id/find_product"
                 android:icon="@drawable/md"
-                android:title="@string/find_by_name" />
+                android:title="@string/find_product" />
         </menu>
     </item>
 </menu>

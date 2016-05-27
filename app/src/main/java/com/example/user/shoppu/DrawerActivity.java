@@ -132,9 +132,8 @@ public class DrawerActivity extends AppCompatActivity
             fragment = new PurchaseHistoryFragment();
             fragment.setArguments(bundle);
             fragmentTransaction = true;
-        }else if (id == R.id.find_by_name) {
+        }else if (id == R.id.find_product) {
             fragment = new DoctorsFragment();
-            bundle.putString(getString(R.string.find_by_key), getString(R.string.by_name));
             fragment.setArguments(bundle);
             fragmentTransaction = true;
 

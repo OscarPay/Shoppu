@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.user.shoppu.R;
-import com.example.user.shoppu.models.Purchase;
+import com.example.user.shoppu.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,44 +20,46 @@ import butterknife.ButterKnife;
 /**
  * Created by Kev' on 26/05/2016.
  */
-public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.ViewHolder>  {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
     private final Context context;
-    private List<Purchase> purchaseList;
+    private List<Product> productList;
 
-    public PurchasesAdapter(Context context, List<Purchase> purchaseList) {
+    public ProductAdapter(Context context, List<Product> productList) {
         this.context = context;
-        if (purchaseList == null){
-            purchaseList = new ArrayList<Purchase>();
+        if (productList == null){
+            productList = new ArrayList<Product>();
         }
-        this.purchaseList = purchaseList;
+        this.productList = productList;
     }
 
-    public void swap(List<Purchase> purchaseList){
-        this.purchaseList.clear();
-        this.purchaseList.addAll(purchaseList);
+    public void swap(List<Product> productList){
+        this.productList.clear();
+        this.productList.addAll(productList);
         notifyDataSetChanged();
     }
 
-    public void add(List<Purchase> purchaseList){
-        this.purchaseList.addAll(purchaseList);
+    public void add(List<Product> productList){
+        this.productList.addAll(productList);
         notifyDataSetChanged();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_purchase, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_product, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Purchase currentPurchase = purchaseList.get(position);
-        holder.txt_purchase.setText(currentPurchase.getProducts().get(0).getName());
+        final Product currentProduct = productList.get(position);
+        holder.txt_name.setText(currentProduct.getName());
+        holder.txt_price.setText(currentProduct.getPrice());
+        holder.txt_brand.setText(currentProduct.getBrand());
     }
 
     @Override
     public int getItemCount() {
-        return purchaseList.size();
+        return productList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,8 +67,12 @@ public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.View
         @Bind(R.id.container)
         public LinearLayout rl_container;
 
-        @Bind(R.id.purchase_product)
-        public TextView txt_purchase;
+        @Bind(R.id.product_name)
+        public TextView txt_name;
+        @Bind(R.id.product_price)
+        public TextView txt_price;
+        @Bind(R.id.product_brand)
+        public TextView txt_brand;
 
         public ViewHolder(View view) {
             super(view);

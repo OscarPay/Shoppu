@@ -19,10 +19,10 @@ import android.view.ViewGroup;
 import com.example.user.shoppu.DrawerActivity;
 import com.example.user.shoppu.R;
 import com.example.user.shoppu.Utils.Utils;
-import com.example.user.shoppu.adapter.PurchasesAdapter;
-import com.example.user.shoppu.models.Purchase;
+import com.example.user.shoppu.adapter.ProductAdapter;
+import com.example.user.shoppu.models.Product;
 import com.example.user.shoppu.models.User;
-import com.example.user.shoppu.remote.PurchaseAPI;
+import com.example.user.shoppu.remote.ProductAPI;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,14 +33,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PurchaseHistoryFragment extends Fragment {
-    private static final String TAG = PurchaseHistoryFragment.class.getSimpleName();
+public class ProductFragment extends Fragment {
+    private static final String TAG = ProductFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
     private User currentUser;
-    private List<Purchase> purchases;
+    private List<Product> products;
     private Activity activity;
-    private PurchasesAdapter purchasesAdapter;
+    private ProductAdapter productAdapter;
     private ProgressDialog progressDialog;
     private String token;
     private LinearLayoutManager mLayoutManager;
@@ -51,7 +51,7 @@ public class PurchaseHistoryFragment extends Fragment {
     @Bind(R.id.recycler_view_doctors)
     public RecyclerView recyclerViewDoctores;
 
-    public PurchaseHistoryFragment() {
+    public ProductFragment() {
         // Required empty public constructor
     }
 
@@ -64,7 +64,7 @@ public class PurchaseHistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_purchase_history, container, false);
+        View view =  inflater.inflate(R.layout.fragment_product, container, false);
         ButterKnife.bind(this, view);
 
         setHasOptionsMenu(true);
@@ -72,18 +72,21 @@ public class PurchaseHistoryFragment extends Fragment {
         drawerActivity = (DrawerActivity) getActivity();
 
         setToolbar(view);
-
         getUserData();
+        getListProducts();
 
-        getListPurchasedObjects();
-
-        purchasesAdapter = new PurchasesAdapter(activity, purchases);
+        productAdapter = new ProductAdapter(activity, products);
         recyclerViewDoctores.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(activity);
         recyclerViewDoctores.setLayoutManager(mLayoutManager);
-        recyclerViewDoctores.setAdapter(purchasesAdapter);
+        recyclerViewDoctores.setAdapter(productAdapter);
 
         return view;
+    }
+
+    private void getListProducts(){
+        showLoadingDialog();
+        fetchProducts(mCallbackProducts);
     }
 
     private void getUserData() {
@@ -93,15 +96,10 @@ public class PurchaseHistoryFragment extends Fragment {
         token = getString(R.string.token) + currentUser.getUserAttributes().getToken();
     }
 
-    private void getListPurchasedObjects(){
-        showLoadingDialog();
-        fetchPurchases(mCallbackPurchase);
-    }
-
     private void setToolbar(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         drawerActivity.setSupportActionBar(toolbar);
-        drawerActivity.getSupportActionBar().setTitle(getString(R.string.purchases));
+        drawerActivity.getSupportActionBar().setTitle(getString(R.string.products));
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 drawerActivity, drawerActivity.drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -118,21 +116,20 @@ public class PurchaseHistoryFragment extends Fragment {
         mIsLoading = true;
     }
 
-    private void fetchPurchases(Callback<List<Purchase>> callback){
-        PurchaseAPI.Factory.getInstance().getPurchase(currentUser.getUserAttributes().getToken(),
-                currentUser.getId()).enqueue(callback);
+    private void fetchProducts(Callback<List<Product>> callback){
+        ProductAPI.Factory.getInstance().getProducts(currentUser.getUserAttributes().getToken()).enqueue(callback);
     }
 
-    public Callback<List<Purchase>> mCallbackPurchase = new Callback<List<Purchase>>() {
+    public Callback<List<Product>> mCallbackProducts = new Callback<List<Product>>() {
         @Override
-        public void onResponse(Call<List<Purchase>> call, Response<List<Purchase>> response) {
+        public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
             int code = response.code();
             mIsLoading = false;
 
             switch (code){
                 case 200:
                     Log.d(TAG, String.valueOf(code));
-                    purchases = response.body();
+                    products = response.body();
                     //doctorAdapter.swap(doctors);
 
                     break;
@@ -149,7 +146,7 @@ public class PurchaseHistoryFragment extends Fragment {
         }
 
         @Override
-        public void onFailure(Call<List<Purchase>> call, Throwable t) {
+        public void onFailure(Call<List<Product>> call, Throwable t) {
             progressDialog.dismiss();
             Snackbar.make(getActivity().getCurrentFocus(), t.getMessage(), Snackbar.LENGTH_SHORT).show();
         }
