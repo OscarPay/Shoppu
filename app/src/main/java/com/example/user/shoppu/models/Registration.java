@@ -10,29 +10,29 @@ import javax.annotation.Generated;
  */
 @Generated("org.jsonschema2pojo")
 public class Registration {
-    @SerializedName("patient")
+    @SerializedName("user")
     @Expose
-    private Patient patient;
+    private User user;
 
     public Registration(String name, String lastname, String email, String password, String passwordConfirm, String number){
-        this.patient = new Patient(name,lastname,password,passwordConfirm,email,number);
+        this.user = new User(name,lastname,password,passwordConfirm,email,number);
     }
 
     /**
      *
      * @return
-     *     The Patient
+     *     The User
      */
-    public Patient getPatient() {
-        return patient;
+    public User getUser() {
+        return user;
     }
 
     /**
      *
-     * @param patient
-     *     The Patient
+     * @param user
+     *     The User
      */
-    public void setBloodType(Patient patient) {
-        this.patient = patient;
+    public void setBloodType(User user) {
+        this.user = user;
     }
 }

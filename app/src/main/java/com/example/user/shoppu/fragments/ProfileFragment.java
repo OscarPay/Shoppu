@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.user.shoppu.DrawerActivity;
 import com.example.user.shoppu.R;
 import com.example.user.shoppu.Utils.Utils;
-import com.example.user.shoppu.models.Patient;
+import com.example.user.shoppu.models.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,23 +29,11 @@ public class ProfileFragment extends Fragment {
 
     @Bind(R.id.textView_phone)
     public TextView textView_phone;
-    @Bind(R.id.textView_blood_type)
-    public TextView textView_blood_type;
-    @Bind(R.id.textView_birthday)
-    public TextView textView_birthday;
-    @Bind(R.id.textView_height)
-    public TextView textView_height;
-    @Bind(R.id.textView_weight)
-    public TextView textView_weight;
-    @Bind(R.id.textView_allergies)
-    public TextView textView_allergies;
-    @Bind(R.id.textView_gender)
-    public TextView textView_gender;
 
     public DrawerActivity drawerActivity = null;
     public Toolbar toolbar = null;
     private OnFragmentInteractionListener mListener;
-    private Patient currentUser;
+    private User currentUser;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -76,14 +64,6 @@ public class ProfileFragment extends Fragment {
 
     private void setProfileData() {
         textView_phone.setText(currentUser.getUserAttributes().getMobile());
-        textView_blood_type.setText(currentUser.getBloodType());
-        textView_birthday.setText(currentUser.getBirthday());
-        String height = String.valueOf(currentUser.getHeight()) + " cm";
-        textView_height.setText(height);
-        String weight = String.valueOf(currentUser.getWeight()) + " kg";
-        textView_weight.setText(weight);
-        textView_allergies.setText(currentUser.getAllergies());
-        textView_gender.setText(currentUser.getGender());
     }
 
     private void setToolbar(View view) {
