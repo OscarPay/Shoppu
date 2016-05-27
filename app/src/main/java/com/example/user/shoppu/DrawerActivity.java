@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,13 +13,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.user.shoppu.Utils.Utils;
-import com.example.user.shoppu.fragments.DoctorsFragment;
+import com.example.user.shoppu.fragments.ProductFragment;
 import com.example.user.shoppu.fragments.ProfileFragment;
 import com.example.user.shoppu.fragments.PurchaseHistoryFragment;
-import com.example.user.shoppu.models.User;
+import com.example.user.shoppu.models.UserAttributes;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,15 +28,16 @@ import butterknife.ButterKnife;
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public NavigationView navigationView = null;
-    public DrawerLayout drawer = null;
     private String jsonCurrentUser;
 
-    @Bind(R.id.textView_pacient_name)
-    TextView textView_pacient_name;
-
-    @Bind(R.id.textView_pacient_email)
-    TextView textView_pacient_email;
+    @Bind(R.id.drawer_layout)
+    public DrawerLayout drawer;
+    @Bind(R.id.nav_view)
+    public NavigationView navigationView;
+    @Nullable @Bind(R.id.textView_pacient_name)
+    public TextView textView_pacient_name;
+    @Nullable @Bind(R.id.textView_pacient_email)
+    public TextView textView_pacient_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +47,6 @@ public class DrawerActivity extends AppCompatActivity
 
          jsonCurrentUser = getSharedPreferences(getString(R.string.name_shared_preferences), Context.MODE_APPEND)
                 .getString(getString(R.string.current_user_key), "{\n" +
-                        "  \"blood_type\": \"B++\",\n" +
-                        "  \"birthday\": \"9999-12-12\",\n" +
-                        "  \"height\": 1,\n" +
-                        "  \"weight\": 69,\n" +
-                        "  \"allergies\": \"none\",\n" +
-                        "  \"gender\": \"macho\",\n" +
                         "  \"user\": {\n" +
                         "    \"email\": \"test@hotmail.com\",\n" +
                         "    \"name\": \"Test\",\n" +
@@ -60,15 +57,23 @@ public class DrawerActivity extends AppCompatActivity
                         "  }\n" +
                         "}");
 
-        User currentUser = Utils.toUserAtributtes(jsonCurrentUser);
+        UserAttributes currentUser = Utils.toUserAtributtes(jsonCurrentUser);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        textView_pacient_name.setText(currentUser.getUserAttributes().getFullName());
-        textView_pacient_email.setText(currentUser.getUserAttributes().getEmail());
+
+        if(textView_pacient_email == null){
+            View view = navigationView.getHeaderView(0);
+            textView_pacient_email = (TextView) view.findViewById(R.id.textView_pacient_email);
+        }
+
+        if(textView_pacient_name == null){
+            View view = navigationView.getHeaderView(0);
+            textView_pacient_name = (TextView) view.findViewById(R.id.textView_pacient_name);
+        }
+
+        textView_pacient_name.setText(currentUser.getFullName());
+        textView_pacient_email.setText(currentUser.getEmail());
 
         //Set the mainFragment
         Bundle bundle = new Bundle();
@@ -133,7 +138,7 @@ public class DrawerActivity extends AppCompatActivity
             fragment.setArguments(bundle);
             fragmentTransaction = true;
         }else if (id == R.id.find_product) {
-            fragment = new DoctorsFragment();
+            fragment = new ProductFragment();
             fragment.setArguments(bundle);
             fragmentTransaction = true;
 

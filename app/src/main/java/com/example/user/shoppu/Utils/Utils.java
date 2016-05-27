@@ -1,6 +1,6 @@
 package com.example.user.shoppu.Utils;
 
-import com.example.user.shoppu.models.User;
+import com.example.user.shoppu.models.UserAttributes;
 import com.google.gson.Gson;
 
 /**
@@ -8,9 +8,9 @@ import com.google.gson.Gson;
  */
 public class Utils {
 
-    public static User toUserAtributtes(String json){
+    public static UserAttributes toUserAtributtes(String json){
         Gson gson = new Gson();
-        User user = gson.fromJson(json, User.class);
+        UserAttributes user = gson.fromJson(json, UserAttributes.class);
         return user;
     }
 }

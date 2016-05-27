@@ -2,7 +2,6 @@ package com.example.user.shoppu.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -21,7 +20,7 @@ import com.example.user.shoppu.R;
 import com.example.user.shoppu.Utils.Utils;
 import com.example.user.shoppu.adapter.PurchasesAdapter;
 import com.example.user.shoppu.models.Purchase;
-import com.example.user.shoppu.models.User;
+import com.example.user.shoppu.models.UserAttributes;
 import com.example.user.shoppu.remote.PurchaseAPI;
 
 import java.io.IOException;
@@ -37,7 +36,7 @@ public class PurchaseHistoryFragment extends Fragment {
     private static final String TAG = PurchaseHistoryFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
-    private User currentUser;
+    private UserAttributes currentUser;
     private List<Purchase> purchases;
     private Activity activity;
     private PurchasesAdapter purchasesAdapter;
@@ -48,7 +47,7 @@ public class PurchaseHistoryFragment extends Fragment {
     public Toolbar toolbar = null;
     private boolean mIsLoading = false;
 
-    @Bind(R.id.recycler_view_doctors)
+    @Bind(R.id.recycler_view_purchases)
     public RecyclerView recyclerViewDoctores;
 
     public PurchaseHistoryFragment() {
@@ -90,16 +89,16 @@ public class PurchaseHistoryFragment extends Fragment {
         String jsonUser = getArguments().getString(getString(R.string.user_key), "");
         currentUser = Utils.toUserAtributtes(jsonUser);
         activity = this.getActivity();
-        token = getString(R.string.token) + currentUser.getUserAttributes().getToken();
+        //token = getString(R.string.token) + currentUser.getUserAttributes().getToken();
     }
 
     private void getListPurchasedObjects(){
-        showLoadingDialog();
-        fetchPurchases(mCallbackPurchase);
+        //showLoadingDialog();
+        //fetchPurchases(mCallbackPurchase);
     }
 
     private void setToolbar(View view) {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar_default);
         drawerActivity.setSupportActionBar(toolbar);
         drawerActivity.getSupportActionBar().setTitle(getString(R.string.purchases));
 
@@ -119,7 +118,7 @@ public class PurchaseHistoryFragment extends Fragment {
     }
 
     private void fetchPurchases(Callback<List<Purchase>> callback){
-        PurchaseAPI.Factory.getInstance().getPurchase(currentUser.getUserAttributes().getToken(),
+        PurchaseAPI.Factory.getInstance().getPurchase(currentUser.getToken(),
                 currentUser.getId()).enqueue(callback);
     }
 
@@ -159,17 +158,6 @@ public class PurchaseHistoryFragment extends Fragment {
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
         }
     }
 

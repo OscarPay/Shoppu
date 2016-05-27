@@ -1,8 +1,8 @@
 package com.example.user.shoppu.remote;
 
 import com.example.user.shoppu.models.Session;
-import com.example.user.shoppu.models.UserAttributes;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,11 +15,11 @@ import retrofit2.http.POST;
  */
 public interface SessionAPI {
 
-    String BASE_URL = "http://medicalia.herokuapp.com";
+    String BASE_URL = "http://shoppu-server.herokuapp.com";
 
     @Headers("Content-Type: application/json")
     @POST("/api/sessions")
-    Call<UserAttributes> login(@Body Session session);
+    Call<ResponseBody> login(@Body Session session);
 
     class Factory {
         public static SessionAPI service;
