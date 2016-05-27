@@ -17,7 +17,7 @@
 
         <ImageView android:src="@drawable/logo"
             android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_height="202dp"
             android:layout_marginBottom="24dp"
             android:visibility="visible" />
 
@@ -107,7 +107,9 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="@string/create_account"/>
+            android:text="@string/create_account"
+            android:background="@color/accent"
+            android:textColor="#ffffff" />
 
         <TextView android:id="@+id/link_login"
             android:layout_width="fill_parent"

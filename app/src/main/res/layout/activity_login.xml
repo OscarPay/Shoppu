@@ -3,21 +3,21 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
-    android:background="@drawable/shoppu">
+    android:background="@drawable/background">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="256dp"
+        android:paddingTop="56dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <!--<ImageView android:src="@drawable/logo"
+        <ImageView android:src="@drawable/logo"
             android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_height="202dp"
             android:layout_marginBottom="24dp"
-            android:layout_gravity="center_horizontal" />-->
+            android:layout_gravity="center_horizontal" />
 
         <!--  Email Label -->
         <android.support.design.widget.TextInputLayout
