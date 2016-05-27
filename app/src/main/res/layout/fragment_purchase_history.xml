@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/doc"
+    android:background="@color/base_backgroud"
     tools:context="com.example.user.shoppu.fragments.PurchaseHistoryFragment">
 
     <include

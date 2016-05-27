@@ -22,5 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Confirmar compra"
         android:id="@+id/btn_confirm"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:background="@color/accent"
+        android:textColor="#ffffff" />
 </LinearLayout>
