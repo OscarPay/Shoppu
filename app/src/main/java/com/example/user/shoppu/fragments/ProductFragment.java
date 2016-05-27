@@ -24,6 +24,7 @@ import com.example.user.shoppu.adapter.ProductAdapter;
 import com.example.user.shoppu.models.Product;
 import com.example.user.shoppu.models.UserAttributes;
 import com.example.user.shoppu.remote.ProductAPI;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.List;
@@ -89,8 +90,12 @@ public class ProductFragment extends Fragment {
                 List<Product> products = productAdapter.getSelectedItems();
                 //Se realiza la compra
                 Utils.saveListToPurchase(products);
+                Bundle bundle = new Bundle();
+                bundle.putString(getString(R.string.user_key), new Gson().toJson(currentUser));
+                BuyerFragment fragment = new BuyerFragment();
+                fragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_drawer, new BuyerFragment());
+                fragmentTransaction.replace(R.id.content_drawer, fragment);
                 fragmentTransaction.commit();
             }
         });

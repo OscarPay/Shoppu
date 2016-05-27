@@ -23,6 +23,7 @@ public class Product {
     private String price;
 
     private boolean selected = false;
+    private int quantity = 0;
     /**
      * 
      * @return
@@ -102,5 +103,19 @@ public class Product {
 
     public boolean isSelected(){
         return selected;
+    }
+
+    public void increaseQuantity(){
+        quantity ++;
+    }
+
+    public void reduceQuantity(){
+        if(quantity > 0){
+            quantity--;
+        }
+    }
+
+    public int getQuantity(){
+        return quantity;
     }
 }

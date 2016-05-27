@@ -1,88 +1,194 @@
 package com.example.user.shoppu.fragments;
 
-import android.content.Context;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.example.user.shoppu.DrawerActivity;
 import com.example.user.shoppu.R;
+import com.example.user.shoppu.Utils.Utils;
+import com.example.user.shoppu.adapter.BuyerAdapter;
+import com.example.user.shoppu.models.ConceptsAttribute;
+import com.example.user.shoppu.models.Product;
+import com.example.user.shoppu.models.Purchase;
+import com.example.user.shoppu.models.Transaction;
+import com.example.user.shoppu.models.UserAttributes;
+import com.example.user.shoppu.remote.InvoiceAPI;
+import com.google.gson.Gson;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link BuyerFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link BuyerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class BuyerFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public static final String TAG = BuyerFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
+    private ProgressDialog progressDialog;
+    private Activity activity;
+    private LinearLayoutManager mLayoutManager;
+    private UserAttributes currentUser;
+    public DrawerActivity drawerActivity = null;
+    public Toolbar toolbar = null;
+    private boolean mIsLoading = false;
+    private List<Product> products;
+    private BuyerAdapter buyerAdapter;
+
+    @Bind(R.id.recycler_view_buying)
+    public RecyclerView recyclerViewDoctores;
+    @Bind(R.id.btn_confirm)
+    public Button purchaseBtn;
 
     public BuyerFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BuyerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BuyerFragment newInstance(String param1, String param2) {
-        BuyerFragment fragment = new BuyerFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_buyer, container, false);
+        View view = inflater.inflate(R.layout.fragment_buyer, container, false);
+        ButterKnife.bind(this, view);
+
+        setHasOptionsMenu(true);
+
+        drawerActivity = (DrawerActivity) getActivity();
+        setToolbar(view);
+        getUserData();
+        //Se pone la lista de objetos a comprar
+        this.products =  Utils.getProductsToBuy();
+
+        buyerAdapter = new BuyerAdapter(activity, products);
+        recyclerViewDoctores.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(activity);
+        recyclerViewDoctores.setLayoutManager(mLayoutManager);
+        recyclerViewDoctores.setAdapter(buyerAdapter);
+
+        purchaseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLoadingDialog();
+
+                List<Product> products = buyerAdapter.getProducts();
+                List<ConceptsAttribute> conceptsAttributes = new ArrayList<ConceptsAttribute>();
+                int total = 0;
+                for(Product p: products){
+                    ConceptsAttribute toBuy = new ConceptsAttribute();
+                    toBuy.setProductId(p.getId());
+                    toBuy.setQuantity(Double.toString(p.getQuantity()));
+                    conceptsAttributes.add(toBuy);
+                    total += p.getQuantity()* Double.parseDouble(p.getPrice());
+                }
+
+                Transaction transaction = new Transaction();
+                transaction.setConceptsAttributes(conceptsAttributes);
+                transaction.setUserId(Integer.toString((currentUser.getId())));
+                transaction.setTotal(Integer.toString(total));
+                transaction.setDate("27/05/2016");
+
+                InvoiceAPI.Factory.getInstance().buyProducts(currentUser.getToken(), transaction).enqueue(mCallbackProducts);
+
+            }
+        });
+
+        return view;
+    }
+
+    private void showLoadingDialog() {
+        progressDialog = new ProgressDialog(getActivity(),
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.show();
+        mIsLoading = true;
+    }
+
+    public Callback<Purchase> mCallbackProducts = new Callback<Purchase>() {
+        @Override
+        public void onResponse(Call<Purchase> call, Response<Purchase> response) {
+            int code = response.code();
+            mIsLoading = false;
+
+            switch (code){
+                case 201:
+                    Log.d(TAG, String.valueOf(code));
+                    Purchase purchase = response.body();
+
+                    Utils.addPurchase(purchase);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString(getString(R.string.user_key), new Gson().toJson(currentUser));
+                    PurchaseHistoryFragment fragment = new PurchaseHistoryFragment();
+                    fragment.setArguments(bundle);
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_drawer, fragment);
+                    fragmentTransaction.commit();
+
+                    break;
+                default:
+                    //Log.e(TAG, String.valueOf(code));
+                    try {
+                        Snackbar.make(getActivity().getCurrentFocus(), "Error del Servidor" + response.errorBody().string(), Snackbar.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+            }
+
+            progressDialog.dismiss();
+        }
+
+        @Override
+        public void onFailure(Call<Purchase> call, Throwable t) {
+            progressDialog.dismiss();
+            Snackbar.make(getActivity().getCurrentFocus(), t.getMessage(), Snackbar.LENGTH_SHORT).show();
+        }
+    };
+
+    private void getUserData() {
+        String jsonUser = getArguments().getString(getString(R.string.user_key), "");
+        currentUser = Utils.toUserAtributtes(jsonUser);
+        activity = this.getActivity();
+    }
+
+    private void setToolbar(View view) {
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar_default);
+        drawerActivity.setSupportActionBar(toolbar);
+        drawerActivity.getSupportActionBar().setTitle(getString(R.string.products));
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                drawerActivity, drawerActivity.drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerActivity.drawer.setDrawerListener(toggle);
+        toggle.syncState();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
         }
     }
 

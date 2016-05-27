@@ -118,6 +118,8 @@ public class PurchaseHistoryFragment extends Fragment {
 
     private void fetchPurchases(Callback<List<Purchase>> callback){
         //InvoiceAPI.Factory.getInstance().getPurchase(currentUser.getToken(),currentUser.getId()).enqueue(callback);
+        mIsLoading = false;
+        progressDialog.dismiss();
     }
 
     public Callback<List<Purchase>> mCallbackPurchase = new Callback<List<Purchase>>() {

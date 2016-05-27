@@ -6,6 +6,7 @@ import com.example.user.shoppu.models.Transaction;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -18,7 +19,7 @@ public interface InvoiceAPI {
 
     @Headers("Content-Type: application/json")
     @POST("/api/invoices")
-    Call<Purchase> buyProducts(@Header("Authorization") String token, Transaction transaction);
+    Call<Purchase> buyProducts(@Header("Authorization") String token,@Body Transaction transaction);
 
     class Factory {
         public static InvoiceAPI service;
