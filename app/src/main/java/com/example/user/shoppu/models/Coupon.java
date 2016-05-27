@@ -16,6 +16,10 @@ public class Coupon {
     @Expose
     private String discount;
 
+    public Coupon(String discount){
+        this.discount = discount;
+    }
+
     /**
      * 
      * @return

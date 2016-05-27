@@ -13,7 +13,7 @@
         <item
             android:id="@+id/coupons"
             android:icon="@drawable/logout"
-            android:title="@string/purchases" />
+            android:title="@string/coupons" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
