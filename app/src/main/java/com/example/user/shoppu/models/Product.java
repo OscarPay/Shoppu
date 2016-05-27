@@ -22,6 +22,7 @@ public class Product {
     @Expose
     private String price;
 
+    private boolean selected = false;
     /**
      * 
      * @return
@@ -94,4 +95,12 @@ public class Product {
         this.price = price;
     }
 
+
+    public void setSelected(boolean selected){
+        this.selected = selected;
+    }
+
+    public boolean isSelected(){
+        return selected;
+    }
 }

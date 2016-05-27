@@ -1,12 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.user.shoppu.fragments.ProductsFragment">
+    tools:context="com.example.user.shoppu.fragments.BuyerFragment">
 
-    <include
-        android:id="@+id/bar_toolbar"
-        layout="@layout/bar_toolbar_products"></include>
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"

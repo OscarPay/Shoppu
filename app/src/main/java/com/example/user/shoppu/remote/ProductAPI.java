@@ -15,11 +15,11 @@ import retrofit2.http.Headers;
  * Created by Kev' on 26/05/2016.
  */
 public interface ProductAPI {
-    String BASE_URL = "http://shoppu.herokuapp.com";
+    String BASE_URL = "http://shoppu-server.herokuapp.com/";
 
     @Headers("Content-Type: application/json")
     @GET("/api/products/")
-    Call<List<Product>> getProducts(@Header("Token") String token);
+    Call<List<Product>> getProducts(@Header("Authorization") String token);
 
     class Factory {
         public static ProductAPI service;

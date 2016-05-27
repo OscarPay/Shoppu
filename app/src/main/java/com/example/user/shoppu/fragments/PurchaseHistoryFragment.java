@@ -21,7 +21,6 @@ import com.example.user.shoppu.Utils.Utils;
 import com.example.user.shoppu.adapter.PurchasesAdapter;
 import com.example.user.shoppu.models.Purchase;
 import com.example.user.shoppu.models.UserAttributes;
-import com.example.user.shoppu.remote.PurchaseAPI;
 
 import java.io.IOException;
 import java.util.List;
@@ -89,12 +88,12 @@ public class PurchaseHistoryFragment extends Fragment {
         String jsonUser = getArguments().getString(getString(R.string.user_key), "");
         currentUser = Utils.toUserAtributtes(jsonUser);
         activity = this.getActivity();
-        //token = getString(R.string.token) + currentUser.getUserAttributes().getToken();
+        token = getString(R.string.token) + currentUser.getToken();
     }
 
     private void getListPurchasedObjects(){
-        //showLoadingDialog();
-        //fetchPurchases(mCallbackPurchase);
+        showLoadingDialog();
+        fetchPurchases(mCallbackPurchase);
     }
 
     private void setToolbar(View view) {
@@ -118,8 +117,7 @@ public class PurchaseHistoryFragment extends Fragment {
     }
 
     private void fetchPurchases(Callback<List<Purchase>> callback){
-        PurchaseAPI.Factory.getInstance().getPurchase(currentUser.getToken(),
-                currentUser.getId()).enqueue(callback);
+        //InvoiceAPI.Factory.getInstance().getPurchase(currentUser.getToken(),currentUser.getId()).enqueue(callback);
     }
 
     public Callback<List<Purchase>> mCallbackPurchase = new Callback<List<Purchase>>() {

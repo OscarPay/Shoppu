@@ -11,7 +11,7 @@ public class Coupon {
 
     @SerializedName("id")
     @Expose
-    private String id;
+    private Integer id;
     @SerializedName("discount")
     @Expose
     private String discount;
@@ -21,7 +21,7 @@ public class Coupon {
      * @return
      *     The id
      */
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -30,7 +30,7 @@ public class Coupon {
      * @param id
      *     The id
      */
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -51,6 +51,5 @@ public class Coupon {
     public void setDiscount(String discount) {
         this.discount = discount;
     }
-
 
 }

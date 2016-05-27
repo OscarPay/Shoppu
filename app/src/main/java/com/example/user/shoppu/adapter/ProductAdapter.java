@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,6 +39,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    public List<Product> getSelectedItems(){
+        List<Product> selectedProducts = new ArrayList<>();
+        for(Product p: productList){
+            if(p.isSelected()){
+                selectedProducts.add(p);
+            }
+        }
+        return selectedProducts;
+    }
+
     public void add(List<Product> productList){
         this.productList.addAll(productList);
         notifyDataSetChanged();
@@ -55,6 +66,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.txt_name.setText(currentProduct.getName());
         holder.txt_price.setText(currentProduct.getPrice());
         holder.txt_brand.setText(currentProduct.getBrand());
+        holder.checkBox.setChecked(currentProduct.isSelected());
+        holder.checkBox.setTag(currentProduct);
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox cb = (CheckBox) v;
+                Product product = (Product) cb.getTag();
+
+                product.setSelected(cb.isChecked());
+            }
+        });
     }
 
     @Override
@@ -73,6 +95,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public TextView txt_price;
         @Bind(R.id.product_brand)
         public TextView txt_brand;
+        @Bind(R.id.checkbox_product)
+        public CheckBox checkBox;
 
         public ViewHolder(View view) {
             super(view);

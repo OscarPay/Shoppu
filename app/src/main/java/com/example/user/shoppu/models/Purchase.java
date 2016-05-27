@@ -4,55 +4,52 @@ package com.example.user.shoppu.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Generated;
+
 @Generated("org.jsonschema2pojo")
 public class Purchase {
 
-    @SerializedName("id")
+    @SerializedName("invoice")
     @Expose
-    private String id;
-    @SerializedName("products")
+    private Invoice invoice;
+    @SerializedName("coupon")
     @Expose
-    private List<Product> products = new ArrayList<Product>();
+    private Coupon coupon;
 
     /**
      * 
      * @return
-     *     The id
+     *     The invoice
      */
-    public String getId() {
-        return id;
+    public Invoice getInvoice() {
+        return invoice;
     }
 
     /**
      * 
-     * @param id
-     *     The id
+     * @param invoice
+     *     The invoice
      */
-    public void setId(String id) {
-        this.id = id;
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 
     /**
-     *
+     * 
      * @return
-     *     The products
+     *     The coupon
      */
-    public List<Product> getProducts() {
-        return products;
+    public Coupon getCoupon() {
+        return coupon;
     }
 
     /**
-     *
-     * @param products
-     *     The products
+     * 
+     * @param coupon
+     *     The coupon
      */
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setCoupon(Coupon coupon) {
+        this.coupon = coupon;
     }
-
 
 }

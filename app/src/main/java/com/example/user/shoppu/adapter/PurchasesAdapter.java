@@ -52,7 +52,7 @@ public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Purchase currentPurchase = purchaseList.get(position);
-        holder.txt_purchase.setText(currentPurchase.getProducts().get(0).getName());
+        holder.txt_purchase.setText(currentPurchase.getInvoice().getTotal());
     }
 
     @Override

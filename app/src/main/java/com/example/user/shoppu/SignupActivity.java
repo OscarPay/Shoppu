@@ -10,21 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.user.shoppu.models.Registration;
-import com.example.user.shoppu.remote.PatientAPI;
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -83,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
         String passwordConfirm = _passwordConfirmText.getText().toString();
 
-        Registration registration = new Registration(name,lastname,email,password,passwordConfirm, phone);
+        /*Registration registration = new Registration(name,lastname,email,password,passwordConfirm, phone);
 
         PatientAPI.Factory.getInstance().register(registration).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -132,7 +119,7 @@ public class SignupActivity extends AppCompatActivity {
                 Log.e(TAG, t.getMessage());
 
             }
-        });
+        });*/
     }
 
 

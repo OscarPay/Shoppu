@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.user.shoppu.DrawerActivity;
 import com.example.user.shoppu.R;
@@ -41,7 +43,6 @@ public class ProductFragment extends Fragment {
     private Activity activity;
     private ProductAdapter productAdapter;
     private ProgressDialog progressDialog;
-    private String token;
     private LinearLayoutManager mLayoutManager;
     public DrawerActivity drawerActivity = null;
     public Toolbar toolbar = null;
@@ -49,6 +50,8 @@ public class ProductFragment extends Fragment {
 
     @Bind(R.id.recycler_view_products)
     public RecyclerView recyclerViewDoctores;
+    @Bind(R.id.btn_purchase)
+    public Button purchaseBtn;
 
     public ProductFragment() {
         // Required empty public constructor
@@ -80,19 +83,30 @@ public class ProductFragment extends Fragment {
         recyclerViewDoctores.setLayoutManager(mLayoutManager);
         recyclerViewDoctores.setAdapter(productAdapter);
 
+        purchaseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Product> products = productAdapter.getSelectedItems();
+                //Se realiza la compra
+                Utils.saveListToPurchase(products);
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_drawer, new BuyerFragment());
+                fragmentTransaction.commit();
+            }
+        });
+
         return view;
     }
 
     private void getListProducts(){
-        //showLoadingDialog();
-        //fetchProducts(mCallbackProducts);
+        showLoadingDialog();
+        fetchProducts(mCallbackProducts);
     }
 
     private void getUserData() {
         String jsonUser = getArguments().getString(getString(R.string.user_key), "");
         currentUser = Utils.toUserAtributtes(jsonUser);
         activity = this.getActivity();
-        token = getString(R.string.token) + currentUser.getToken();
     }
 
     private void setToolbar(View view) {
@@ -129,7 +143,7 @@ public class ProductFragment extends Fragment {
                 case 200:
                     Log.d(TAG, String.valueOf(code));
                     products = response.body();
-                    //doctorAdapter.swap(doctors);
+                    productAdapter.swap(products);
 
                     break;
                 default:
