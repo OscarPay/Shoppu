@@ -13,4 +13,6 @@
     <color name="available">#8ED081</color>
     <color name="lunch">#CC5521</color>
 
+    <color name="base_backgroud">#efebe9</color>
+
 </resources>
