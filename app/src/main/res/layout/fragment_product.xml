@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/doc"
+    android:background="@color/base_backgroud"
     tools:context="com.example.user.shoppu.fragments.PurchaseHistoryFragment">
 
     <include
@@ -22,6 +22,8 @@
         android:layout_height="wrap_content"
         android:text="Comprar productos"
         android:id="@+id/btn_purchase"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:background="@color/accent"
+        android:textColor="#ffffff" />
 
 </LinearLayout>
