@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.user.shoppu.DrawerActivity;
 import com.example.user.shoppu.R;
 import com.example.user.shoppu.Utils.Utils;
-import com.example.user.shoppu.models.User;
+import com.example.user.shoppu.models.UserAttributes;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,7 +33,7 @@ public class ProfileFragment extends Fragment {
     public DrawerActivity drawerActivity = null;
     public Toolbar toolbar = null;
     private OnFragmentInteractionListener mListener;
-    private User currentUser;
+    private UserAttributes currentUser;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -54,7 +54,7 @@ public class ProfileFragment extends Fragment {
 
 
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapse_toolbar);
-        collapsingToolbarLayout.setTitle(currentUser.getUserAttributes().getFullName());
+        collapsingToolbarLayout.setTitle(currentUser.getFullName());
 
         setProfileData();
 
@@ -63,7 +63,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setProfileData() {
-        textView_phone.setText(currentUser.getUserAttributes().getMobile());
+        textView_phone.setText(currentUser.getMobile());
     }
 
     private void setToolbar(View view) {

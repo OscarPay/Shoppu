@@ -1,48 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="190dp"
-android:background="@drawable/fondoapp"
-android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="190dp"
+    android:background="@drawable/fondoapp"
+    android:orientation="vertical">
 
-<de.hdodenhof.circleimageview.CircleImageView
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="70dp"
-    android:id="@+id/imageView"
-    android:layout_height="70dp"
-    android:src="@drawable/profile_picture"
-    app:civ_border_color="#FF000000"
-    android:layout_marginLeft="24dp"
-    android:layout_centerVertical="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_marginStart="24dp" />
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/imageView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/profile_picture"
+        app:civ_border_color="#FF000000" />
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Android Studio"
-    android:textSize="14sp"
-    android:textColor="#FFF"
-    android:textStyle="bold"
-    android:gravity="left"
-    android:paddingBottom="4dp"
-    android:id="@+id/textView_pacient_name"
-    android:layout_above="@+id/textView_pacient_email"
-    android:layout_alignLeft="@+id/imageView"
-    android:layout_alignStart="@+id/imageView" />
+    <TextView
+        android:id="@+id/textView_pacient_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView_pacient_email"
+        android:layout_alignLeft="@+id/imageView"
+        android:layout_alignStart="@+id/imageView"
+        android:gravity="left"
+        android:paddingBottom="4dp"
+        android:text="Android Studio"
+        android:textColor="#FFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="android.studio@android.com"
-    android:id="@+id/textView_pacient_email"
-    android:gravity="left"
-    android:layout_marginBottom="8dp"
-    android:textSize="14sp"
-    android:textColor="#fff"
-    android:layout_alignParentBottom="true"
-    android:layout_alignLeft="@+id/textView_pacient_name"
-    android:layout_alignStart="@+id/textView_pacient_name" />
-
+    <TextView
+        android:id="@+id/textView_pacient_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_pacient_name"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView_pacient_name"
+        android:layout_marginBottom="8dp"
+        android:gravity="left"
+        android:text="android.studio@android.com"
+        android:textColor="#fff"
+        android:textSize="14sp" />
 </RelativeLayout>

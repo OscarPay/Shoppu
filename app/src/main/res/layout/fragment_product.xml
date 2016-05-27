@@ -4,17 +4,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/doc"
-    tools:context="com.example.user.shoppu.fragments.DoctorsFragment">
+    tools:context="com.example.user.shoppu.fragments.PurchaseHistoryFragment">
 
     <include
         android:id="@+id/bar_toolbar"
-        layout="@layout/bar_toolbar_doctors"></include>
+        layout="@layout/bar_toolbar"></include>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_doctors"
+        android:id="@+id/recycler_view_products"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comprar productos"
+        android:id="@+id/btn_purchase"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

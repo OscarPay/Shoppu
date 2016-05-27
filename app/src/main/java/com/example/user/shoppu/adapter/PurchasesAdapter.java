@@ -32,27 +32,27 @@ public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.View
         this.purchaseList = purchaseList;
     }
 
-    public void swap(List<Purchase> doctorsList){
+    public void swap(List<Purchase> purchaseList){
         this.purchaseList.clear();
-        this.purchaseList.addAll(doctorsList);
+        this.purchaseList.addAll(purchaseList);
         notifyDataSetChanged();
     }
 
-    public void add(List<Purchase> doctorsList){
-        this.purchaseList.addAll(doctorsList);
+    public void add(List<Purchase> purchaseList){
+        this.purchaseList.addAll(purchaseList);
         notifyDataSetChanged();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_doctor, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_purchase, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Purchase currentPurchase = purchaseList.get(position);
-        holder.txt_purchase.setText(currentPurchase.getProducts().get(0).getName());
+        holder.txt_purchase.setText(currentPurchase.getInvoice().getTotal());
     }
 
     @Override
