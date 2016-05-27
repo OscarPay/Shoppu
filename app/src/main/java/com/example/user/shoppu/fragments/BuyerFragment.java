@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.user.shoppu.DB.CouponDataSource;
+import com.example.user.shoppu.DB.InvoiceDataSource;
 import com.example.user.shoppu.DrawerActivity;
 import com.example.user.shoppu.R;
 import com.example.user.shoppu.Utils.Utils;
@@ -58,6 +60,9 @@ public class BuyerFragment extends Fragment {
     @Bind(R.id.btn_confirm)
     public Button purchaseBtn;
 
+
+    private CouponDataSource couponDataSource;
+    private InvoiceDataSource invoiceDataSource;
     public BuyerFragment() {
         // Required empty public constructor
     }
@@ -75,6 +80,9 @@ public class BuyerFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         setHasOptionsMenu(true);
+
+        this.couponDataSource = new CouponDataSource(getActivity().getApplicationContext());
+        this.invoiceDataSource = new InvoiceDataSource(getActivity().getApplicationContext());
 
         drawerActivity = (DrawerActivity) getActivity();
         setToolbar(view);
@@ -137,9 +145,13 @@ public class BuyerFragment extends Fragment {
                 case 201:
                     Log.d(TAG, String.valueOf(code));
                     Purchase purchase = response.body();
+                    invoiceDataSource.open();
+                    invoiceDataSource.insertInvoice(purchase.getInvoice());
+                    invoiceDataSource.close();
 
-                    Utils.addPurchase(purchase);
-                    Utils.addCoupon(purchase.getCoupon());
+                    couponDataSource.open();
+                    couponDataSource.insertCoupon(purchase.getCoupon());
+                    couponDataSource.close();
 
                     Bundle bundle = new Bundle();
                     bundle.putString(getString(R.string.user_key), new Gson().toJson(currentUser));

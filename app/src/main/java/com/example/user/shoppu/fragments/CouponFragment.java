@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.user.shoppu.DB.CouponDataSource;
 import com.example.user.shoppu.DrawerActivity;
 import com.example.user.shoppu.R;
 import com.example.user.shoppu.Utils.Utils;
@@ -38,6 +39,7 @@ public class CouponFragment extends Fragment {
     private boolean mIsLoading = false;
     private List<Coupon> coupons;
     private CouponAdapter couponAdapter;
+    private CouponDataSource data;
 
     @Bind(R.id.recycler_view_coupons)
     public RecyclerView recyclerViewDoctores;
@@ -64,7 +66,10 @@ public class CouponFragment extends Fragment {
         setToolbar(view);
         getUserData();
 
-        this.coupons = Utils.getCoupons();
+        data = new CouponDataSource(getActivity().getApplicationContext());
+        data.open();
+        this.coupons = data.getAllCoupons();
+        data.close();
 
         couponAdapter = new CouponAdapter(activity, coupons);
         recyclerViewDoctores.setHasFixedSize(true);

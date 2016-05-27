@@ -4,39 +4,34 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.user.shoppu.DB.InvoiceDataSource;
 import com.example.user.shoppu.DrawerActivity;
 import com.example.user.shoppu.R;
 import com.example.user.shoppu.Utils.Utils;
 import com.example.user.shoppu.adapter.PurchasesAdapter;
-import com.example.user.shoppu.models.Purchase;
+import com.example.user.shoppu.models.Invoice;
 import com.example.user.shoppu.models.UserAttributes;
 
-import java.io.IOException;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class PurchaseHistoryFragment extends Fragment {
     private static final String TAG = PurchaseHistoryFragment.class.getSimpleName();
 
     private OnFragmentInteractionListener mListener;
     private UserAttributes currentUser;
-    private List<Purchase> purchases;
+    private List<Invoice> purchases;
     private Activity activity;
     private PurchasesAdapter purchasesAdapter;
     private ProgressDialog progressDialog;
@@ -45,6 +40,7 @@ public class PurchaseHistoryFragment extends Fragment {
     public DrawerActivity drawerActivity = null;
     public Toolbar toolbar = null;
     private boolean mIsLoading = false;
+    private InvoiceDataSource dataSource;
 
     @Bind(R.id.recycler_view_purchases)
     public RecyclerView recyclerViewDoctores;
@@ -73,6 +69,8 @@ public class PurchaseHistoryFragment extends Fragment {
 
         getUserData();
 
+        dataSource = new InvoiceDataSource(getActivity().getApplicationContext());
+
         getListPurchasedObjects();
 
         purchasesAdapter = new PurchasesAdapter(activity, purchases);
@@ -93,7 +91,7 @@ public class PurchaseHistoryFragment extends Fragment {
 
     private void getListPurchasedObjects(){
         showLoadingDialog();
-        fetchPurchases(mCallbackPurchase);
+        fetchPurchases();
     }
 
     private void setToolbar(View view) {
@@ -116,14 +114,16 @@ public class PurchaseHistoryFragment extends Fragment {
         mIsLoading = true;
     }
 
-    private void fetchPurchases(Callback<List<Purchase>> callback){
+    private void fetchPurchases(){
         //InvoiceAPI.Factory.getInstance().getPurchase(currentUser.getToken(),currentUser.getId()).enqueue(callback);
-        purchases =Utils.getPuchases();
+        dataSource.open();
+        purchases = dataSource.getAllInvoice();
+        dataSource.close();
         mIsLoading = false;
         progressDialog.dismiss();
     }
 
-    public Callback<List<Purchase>> mCallbackPurchase = new Callback<List<Purchase>>() {
+    /*public Callback<List<Purchase>> mCallbackPurchase = new Callback<List<Purchase>>() {
         @Override
         public void onResponse(Call<List<Purchase>> call, Response<List<Purchase>> response) {
             int code = response.code();
@@ -153,7 +153,7 @@ public class PurchaseHistoryFragment extends Fragment {
             progressDialog.dismiss();
             Snackbar.make(getActivity().getCurrentFocus(), t.getMessage(), Snackbar.LENGTH_SHORT).show();
         }
-    };
+    };*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

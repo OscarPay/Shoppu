@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.user.shoppu.R;
-import com.example.user.shoppu.models.Purchase;
+import com.example.user.shoppu.models.Invoice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,23 +22,23 @@ import butterknife.ButterKnife;
  */
 public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.ViewHolder>  {
     private final Context context;
-    private List<Purchase> purchaseList;
+    private List<Invoice> purchaseList;
 
-    public PurchasesAdapter(Context context, List<Purchase> purchaseList) {
+    public PurchasesAdapter(Context context, List<Invoice> purchaseList) {
         this.context = context;
         if (purchaseList == null){
-            purchaseList = new ArrayList<Purchase>();
+            purchaseList = new ArrayList<Invoice>();
         }
         this.purchaseList = purchaseList;
     }
 
-    public void swap(List<Purchase> purchaseList){
+    public void swap(List<Invoice> purchaseList){
         this.purchaseList.clear();
         this.purchaseList.addAll(purchaseList);
         notifyDataSetChanged();
     }
 
-    public void add(List<Purchase> purchaseList){
+    public void add(List<Invoice> purchaseList){
         this.purchaseList.addAll(purchaseList);
         notifyDataSetChanged();
     }
@@ -51,8 +51,8 @@ public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Purchase currentPurchase = purchaseList.get(position);
-        holder.txt_purchase.setText(currentPurchase.getInvoice().getTotal());
+        final Invoice currentPurchase = purchaseList.get(position);
+        holder.txt_purchase.setText(currentPurchase.getTotal());
     }
 
     @Override

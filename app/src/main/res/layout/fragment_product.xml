@@ -4,21 +4,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/base_backgroud"
-    tools:context="com.example.user.shoppu.fragments.PurchaseHistoryFragment">
+    tools:context="com.example.user.shoppu.fragments.PurchaseHistoryFragment"
+    android:weightSum="1">
 
     <include
         android:id="@+id/bar_toolbar"
         layout="@layout/bar_toolbar"></include>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_products"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="317dp"
+        android:fillViewport="false"
+        android:layout_weight="0.68">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_products"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </ScrollView>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Comprar productos"
         android:id="@+id/btn_purchase"

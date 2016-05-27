@@ -22,6 +22,12 @@ public class Invoice {
     @Expose
     private String total;
 
+    public Invoice(String date, String user, String total){
+        this.date = date;
+        this.userId = Integer.parseInt(user);
+        this.total = total;
+    }
+
     /**
      * 
      * @return

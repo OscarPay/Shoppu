@@ -1,4 +1,4 @@
-package com.byhyuchiha.studentdb.DB;
+package com.example.user.shoppu.DB;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,7 +10,8 @@ import com.example.user.shoppu.DB.Contracts.InvoiceContract;
 import com.example.user.shoppu.DB.Helpers.InvoiceDBHelper;
 import com.example.user.shoppu.models.Invoice;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by byhyuchiha on 18/02/16.
@@ -43,25 +44,22 @@ public class InvoiceDataSource {
         return newRowId;
     }
 
-    private HashMap<String, String> getAllInvoice() {
-        HashMap<String, String> users = new HashMap<>();
+    public List<Invoice> getAllInvoice() {
+        List<Invoice> invoices = new ArrayList<>();
+        Invoice invoice;
         Cursor cursor = database.query(InvoiceContract.TABLE_NAME, allColumns, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            users.put(cursor.getString(0), cursor.getString(1));
+            invoice = cursorToInvoice(cursor);
+            invoices.add(invoice);
             cursor.moveToNext();
         }
         cursor.close();
-        return users;
+        return invoices;
     }
 
-    public boolean hasValidCredentials(String username, String password){
-        HashMap<String, String> users = getAllInvoice();
-        for(String key: users.keySet()){
-            if(username.equals(username) && password.equals(users.get(key))){
-                return true;
-            }
-        }
-        return false;
+    private Invoice cursorToInvoice(Cursor cursor) {
+
+        return new Invoice(cursor.getString(0), cursor.getString(1), cursor.getString(2));
     }
 }
